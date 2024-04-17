@@ -1,17 +1,16 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { fetchLogIn } from '../../features/logInSlice'
 import { useDispatch } from 'react-redux'
 
 export default function LogInForm() {
-  const [username, setusername] = useState('')
-  const [userpassword, setuserpassword] = useState('')
+  const [email, setemail] = useState('')
+  const [password, setpassword] = useState('')
+  const dispatch = useDispatch()
 
   const LogInSubmit = (e) => {
-    const dispatch = useDispatch()
     e.preventDefault()
-    dispatch(fetchLogIn({ username, userpassword }))
+    dispatch(fetchLogIn({ email, password }))
   }
-
   return (
     <section className='sign-in-content'>
       <i className='fa fa-user-circle sign-in-icon'></i>
@@ -22,8 +21,8 @@ export default function LogInForm() {
           <input
             type='text'
             id='username'
-            value={username}
-            onChange={(e) => setusername(e.target.value)}
+            value={email}
+            onChange={(e) => setemail(e.target.value)}
           />
         </div>
         <div className='input-wrapper'>
@@ -31,8 +30,8 @@ export default function LogInForm() {
           <input
             type='password'
             id='password'
-            value={userpassword}
-            onChange={(e) => setuserpassword(e.target.value)}
+            value={password}
+            onChange={(e) => setpassword(e.target.value)}
           />
         </div>
         <div className='input-remember'>

@@ -50,7 +50,7 @@ const { actions, reducer } = createSlice({
 export const { fetching, resolved, rejected } = actions
 export default reducer
 
-export function fetchLogIn({ username, userpassword }) {
+export function fetchLogIn({ email, password }) {
   return async (dispatch, getState) => {
     const status = selectLogIn(getState()).status
     if (status === 'pending' || status === 'updating') {
@@ -58,12 +58,13 @@ export function fetchLogIn({ username, userpassword }) {
     }
     dispatch(actions.fetching())
     try {
+      console.log(JSON.stringify({ email, password }))
       const response = await fetch('http://localhost:3001/api/v1/user/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, userpassword }),
+        body: JSON.stringify({ email, password }),
       })
       const data = await response.json()
       dispatch(actions.resolved(data))
