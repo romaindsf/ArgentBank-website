@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux'
 import { useState } from 'react'
-import { fetchLogIn } from '../../features/logInSlice'
+import { fetchLogInAsync } from '../../features/logInSlice'
 
 export default function LogInForm() {
   const dispatch = useDispatch()
@@ -9,7 +9,7 @@ export default function LogInForm() {
 
   const logInSubmit = (e) => {
     e.preventDefault()
-    dispatch(fetchLogIn({ username, userpassword }))
+    dispatch(fetchLogInAsync({ username, userpassword }))
   }
 
   return (
