@@ -1,13 +1,13 @@
-import { useDispatch } from 'react-redux'
 import { useState } from 'react'
 import { fetchLogIn } from '../../features/logInSlice'
+import { useDispatch } from 'react-redux'
 
 export default function LogInForm() {
-  const dispatch = useDispatch()
   const [username, setusername] = useState('')
   const [userpassword, setuserpassword] = useState('')
 
-  const logInSubmit = (e) => {
+  const LogInSubmit = (e) => {
+    const dispatch = useDispatch()
     e.preventDefault()
     dispatch(fetchLogIn({ username, userpassword }))
   }
@@ -16,7 +16,7 @@ export default function LogInForm() {
     <section className='sign-in-content'>
       <i className='fa fa-user-circle sign-in-icon'></i>
       <h1>Sign In</h1>
-      <form onSubmit={logInSubmit}>
+      <form onSubmit={LogInSubmit}>
         <div className='input-wrapper'>
           <label htmlFor='username'>Username</label>
           <input
