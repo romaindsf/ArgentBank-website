@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 import { selectLogIn } from './selectors'
 
 const logInSlice = createSlice({
@@ -48,51 +48,52 @@ const logInSlice = createSlice({
 export const { fetching, resolved, rejected } = logInSlice.actions
 export default logInSlice.reducer
 
-export const fetchLogInAsync = createAsyncThunk(
-  'logIn/fetchLogin',
-  async ({ username, userpassword }, dispatch, getState) => {
-    const status = selectLogIn(getState()).status
-    if (status === 'pending' || status === 'updating') {
-      return
-    }
-    dispatch(logInSlice.actions.fetching())
-    try {
-      const response = await fetch('http://localhost:3001/api/v1/user/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, userpassword }),
-      })
-      const data = await response.json()
-      dispatch(logInSlice.actions.resolved(data))
-    } catch (error) {
-      dispatch(logInSlice.actions.rejected(error))
-    }
+export async function fetchLogIn(
+  { username, userpassword },
+  dispatch,
+  getState
+) {
+  const status = selectLogIn(getState()).status
+  if (status === 'pending' || status === 'updating') {
+    return
   }
-)
+  dispatch(logInSlice.actions.fetching())
+  try {
+    const response = await fetch('http://localhost:3001/api/v1/user/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, userpassword }),
+    })
+    const data = await response.json()
+    dispatch(logInSlice.actions.resolved(data))
+  } catch (error) {
+    dispatch(logInSlice.actions.rejected(error))
+  }
+}
 
-// export async function fetchLogIn(
-//   { username, userpassword },
-//   dispatch,
-//   getState
-// ) {
-//   const status = selectLogIn(getState()).status
-//   if (status === 'pending' || status === 'updating') {
-//     return
-// }
-// dispatch(logInSlice.actions.fetching())
-// try {
-//   const response = await fetch('http://localhost:3001/api/v1/user/login', {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify({ username, userpassword }),
-//   })
-//   const data = await response.json()
-//   dispatch(logInSlice.actions.resolved(data))
-// } catch (error) {
-//   dispatch(logInSlice.actions.rejected(error))
-// }
-// }
+// export const fetchLogInAsync = createAsyncThunk(
+//   'logIn/fetchLogin',
+//   async ({ username, userpassword }, dispatch, getState) => {
+//     const status = selectLogIn(getState()).status
+//     if (status === 'pending' || status === 'updating') {
+//       return
+//     }
+//     dispatch(logInSlice.actions.fetching())
+//     try {
+//       const response = await fetch('http://localhost:3001/api/v1/user/login', {
+//         method: 'POST',
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify({ username, userpassword }),
+//       })
+//       const data = await response.json()
+//       dispatch(logInSlice.actions.resolved(data))
+//       console.log('YEY')
+//     } catch (error) {
+//       dispatch(logInSlice.actions.rejected(error))
+//     }
+//   }
+// )
