@@ -1,16 +1,20 @@
-import { useEffect, useState } from 'react'
-import { fetchLogIn } from '../../features/logInSlice'
-import { useDispatch } from 'react-redux'
+import { useState } from 'react'
+import { fetchLogIn } from '../../features/logIn'
+import { useDispatch, useSelector } from 'react-redux'
+import { Navigate } from 'react-router-dom'
+import { selectLogIn } from '../../features/selectors'
 
 export default function LogInForm() {
   const [email, setemail] = useState('')
   const [password, setpassword] = useState('')
   const dispatch = useDispatch()
+  const stateLogin = useSelector(selectLogIn)
 
   const LogInSubmit = (e) => {
     e.preventDefault()
     dispatch(fetchLogIn({ email, password }))
   }
+
   return (
     <section className='sign-in-content'>
       <i className='fa fa-user-circle sign-in-icon'></i>
@@ -38,13 +42,13 @@ export default function LogInForm() {
           <input type='checkbox' id='remember-me' />
           <label htmlFor='remember-me'>Remember me</label>
         </div>
-        {/* PLACEHOLDER DUE TO STATIC SITE */}
         <button className='sign-in-button' type='submit'>
-          Sign In
+          {stateLogin?.data?.status !== 200 ? (
+            'Sign In'
+          ) : (
+            <Navigate to='/user/' />
+          )}
         </button>
-
-        {/* SHOULD BE THE BUTTON BELOW
-           <button className="sign-in-button">Sign In</button> */}
       </form>
     </section>
   )

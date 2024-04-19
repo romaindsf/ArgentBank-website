@@ -7,6 +7,8 @@ const { actions, reducer } = createSlice({
     status: 'void',
     data: null,
     error: null,
+    isLoggedIn: false,
+    // userID: null,
   },
   reducers: {
     fetching: (draft) => {
@@ -29,8 +31,13 @@ const { actions, reducer } = createSlice({
       if (draft.status === 'pending' || draft.status === 'updating') {
         draft.data = action.payload
         draft.status = 'resolved'
-        console.log('yey')
-        // window.location.href = "'/user/:userName'"
+        return
+      }
+      return
+    },
+    toogleLoggedIn: (draft) => {
+      if (draft.status === 'resolved') {
+        draft.isLoggedIn = !draft.isLoggedIn
         return
       }
       return
@@ -44,10 +51,19 @@ const { actions, reducer } = createSlice({
       }
       return
     },
+
+    // resolvedID: (draft, action) => {
+    //   if (draft.status === 'pending' || draft.status === 'updating') {
+    //     draft.userID = action.payload
+    //     draft.status = 'resolved'
+    //     return
+    //   }
+    //   return
+    // },
   },
 })
 
-export const { fetching, resolved, rejected } = actions
+export const { fetching, resolved, rejected, toogleLoggedIn } = actions
 export default reducer
 
 export function fetchLogIn({ email, password }) {
@@ -58,7 +74,6 @@ export function fetchLogIn({ email, password }) {
     }
     dispatch(actions.fetching())
     try {
-      console.log(JSON.stringify({ email, password }))
       const response = await fetch('http://localhost:3001/api/v1/user/login', {
         method: 'POST',
         headers: {
@@ -68,58 +83,15 @@ export function fetchLogIn({ email, password }) {
       })
       const data = await response.json()
       dispatch(actions.resolved(data))
+
+      const loggedIn = selectLogIn(getState()).data.status
+      // const userToken = selectLogIn(getState()).data.body.token
+      if (loggedIn === 200) {
+        dispatch(actions.toogleLoggedIn())
+        // dispatch(fetchUserDataProfile())
+      }
     } catch (error) {
       dispatch(actions.rejected(error))
     }
   }
 }
-
-// export async function FetchLogIn(
-//   { username, userpassword },
-//   getState,
-//   dispatch
-// ) {
-//   const status = selectLogIn(getState()).status
-// if (status === 'pending' || status === 'updating') {
-//   return
-// }
-// dispatch(logInSlice.actions.fetching())
-// try {
-//   const response = await fetch('http://localhost:3001/api/v1/user/login', {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify({ username, userpassword }),
-//   })
-//   const data = await response.json()
-//   dispatch(logInSlice.actions.resolved(data))
-// } catch (error) {
-//   dispatch(logInSlice.actions.rejected(error))
-//   }
-// }
-
-// export const fetchLogInAsync = createAsyncThunk(
-//   'logIn/fetchLogin',
-//   async ({ username, userpassword }, dispatch, getState) => {
-//     const status = selectLogIn(getState()).status
-//     if (status === 'pending' || status === 'updating') {
-//       return
-//     }
-//     dispatch(logInSlice.actions.fetching())
-//     try {
-//       const response = await fetch('http://localhost:3001/api/v1/user/login', {
-//         method: 'POST',
-//         headers: {
-//           'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify({ username, userpassword }),
-//       })
-//       const data = await response.json()
-//       dispatch(logInSlice.actions.resolved(data))
-//       console.log('YEY')
-//     } catch (error) {
-//       dispatch(logInSlice.actions.rejected(error))
-//     }
-//   }
-// )
