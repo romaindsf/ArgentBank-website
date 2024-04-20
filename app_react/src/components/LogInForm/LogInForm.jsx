@@ -52,8 +52,8 @@ export default function LogInForm() {
           <input
             type='checkbox'
             id='remember-me'
-            onChange={(e) => setRememberMe(!rememberMe)}
-            checked={stateLogin?.savedLogs && true}
+            onChange={(e) => setRememberMe(e.target.checked)}
+            defaultChecked={stateLogin?.savedLogs || false}
           />
           <label htmlFor='remember-me'>Remember me</label>
         </div>

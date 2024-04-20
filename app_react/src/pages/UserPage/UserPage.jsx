@@ -21,7 +21,7 @@ export default function UserPage() {
   }, [dispatch, navigate, userToken])
 
   const userProfileData = useSelector(selectProfile)?.data ?? {}
-  const { email, firstName, lastName, userName, id } = userProfileData
+  const { firstName, lastName } = userProfileData
 
   return (
     <>
