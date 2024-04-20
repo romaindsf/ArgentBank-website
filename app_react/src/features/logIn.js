@@ -8,8 +8,8 @@ const { actions, reducer } = createSlice({
     data: null,
     error: null,
     isLoggedIn: false,
-    // userID: null,
   },
+
   reducers: {
     fetching: (draft) => {
       if (draft.status === 'void') {
@@ -51,15 +51,6 @@ const { actions, reducer } = createSlice({
       }
       return
     },
-
-    // resolvedID: (draft, action) => {
-    //   if (draft.status === 'pending' || draft.status === 'updating') {
-    //     draft.userID = action.payload
-    //     draft.status = 'resolved'
-    //     return
-    //   }
-    //   return
-    // },
   },
 })
 
@@ -85,10 +76,8 @@ export function fetchLogIn({ email, password }) {
       dispatch(actions.resolved(data))
 
       const loggedIn = selectLogIn(getState()).data.status
-      // const userToken = selectLogIn(getState()).data.body.token
       if (loggedIn === 200) {
         dispatch(actions.toogleLoggedIn())
-        // dispatch(fetchUserDataProfile())
       }
     } catch (error) {
       dispatch(actions.rejected(error))

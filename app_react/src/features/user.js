@@ -46,7 +46,6 @@ export default reducer
 
 export async function fetchUserProfile(dispatch, getState) {
   const userToken = selectLogIn(getState()).data.body.token
-  console.log(userToken)
   const status = selectProfile(getState()).status
   if (status === 'pending' || status === 'updating') {
     return
@@ -62,7 +61,6 @@ export async function fetchUserProfile(dispatch, getState) {
     })
     const data = await response.json()
     dispatch(actions.resolved(data.body))
-    console.log('LE LUNDI AU SOLEIL')
   } catch (error) {
     dispatch(actions.rejected(error))
   }

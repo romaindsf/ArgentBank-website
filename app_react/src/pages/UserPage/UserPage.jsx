@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { fetchUserProfile } from '../../features/user'
+import { selectProfile } from '../../features/selectors'
 import Header from '../../components/Header/Header'
 import Account from '../../components/Account/Account'
 import Footer from '../../components/Footer/Footer'
@@ -11,6 +12,10 @@ export default function UserPage() {
     dispatch(fetchUserProfile)
   }, [dispatch])
 
+  const userProfile = useSelector(selectProfile)
+  const userProfileData = userProfile?.data ?? {}
+  const { email, firstName, lastName, userName, id } = userProfileData
+
   return (
     <>
       <Header />
@@ -19,7 +24,7 @@ export default function UserPage() {
           <h1>
             Welcome back
             <br />
-            Tony Jarvis!
+            {firstName} {lastName}
           </h1>
           <button className='edit-button'>Edit Name</button>
         </div>
