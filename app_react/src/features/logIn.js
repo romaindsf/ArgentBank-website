@@ -7,7 +7,9 @@ const { actions, reducer } = createSlice({
     status: 'void',
     data: null,
     error: null,
+    savedLogs: null,
     isLoggedIn: false,
+    token: null,
   },
 
   reducers: {
@@ -51,13 +53,41 @@ const { actions, reducer } = createSlice({
       }
       return
     },
+    reset: (draft) => {
+      if (draft.status === 'resolved') {
+        draft.status = 'void'
+        draft.data = null
+        draft.error = null
+        draft.isLoggedIn = false
+        draft.token = null
+        return
+      }
+      return
+    },
+    remember: (draft, action) => {
+      draft.savedLogs = action.payload
+      return
+    },
+    clearStateOnSuccess: (draft) => {
+      draft.token = draft.data.body.token
+      draft.data = null
+      return
+    },
   },
 })
 
-export const { fetching, resolved, rejected, toogleLoggedIn } = actions
+export const {
+  fetching,
+  resolved,
+  rejected,
+  toogleLoggedIn,
+  reset,
+  remember,
+  clearStateOnSuccess,
+} = actions
 export default reducer
 
-export function fetchLogIn({ email, password }) {
+export function fetchLogIn({ email, password, rememberMe }) {
   return async (dispatch, getState) => {
     const status = selectLogIn(getState()).status
     if (status === 'pending' || status === 'updating') {
@@ -78,6 +108,10 @@ export function fetchLogIn({ email, password }) {
       const loggedIn = selectLogIn(getState()).data.status
       if (loggedIn === 200) {
         dispatch(actions.toogleLoggedIn())
+        dispatch(actions.clearStateOnSuccess())
+        if (rememberMe) {
+          dispatch(remember({ email, password }))
+        }
       }
     } catch (error) {
       dispatch(actions.rejected(error))

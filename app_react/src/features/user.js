@@ -38,14 +38,18 @@ const { actions, reducer } = createSlice({
       }
       return
     },
+    resetData: (draft) => {
+      draft.data = null
+      return
+    },
   },
 })
 
-export const { fetching, resolved, rejected } = actions
+export const { fetching, resolved, rejected, resetData } = actions
 export default reducer
 
 export async function fetchUserProfile(dispatch, getState) {
-  const userToken = selectLogIn(getState()).data.body.token
+  const userToken = selectLogIn(getState()).token
   const status = selectProfile(getState()).status
   if (status === 'pending' || status === 'updating') {
     return

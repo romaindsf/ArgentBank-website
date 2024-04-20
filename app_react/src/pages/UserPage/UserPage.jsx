@@ -1,19 +1,26 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchUserProfile } from '../../features/user'
-import { selectProfile } from '../../features/selectors'
+import { selectProfile, selectLogIn } from '../../features/selectors'
 import Header from '../../components/Header/Header'
 import Account from '../../components/Account/Account'
 import Footer from '../../components/Footer/Footer'
+import { useNavigate } from 'react-router-dom'
 
 export default function UserPage() {
   const dispatch = useDispatch()
-  useEffect(() => {
-    dispatch(fetchUserProfile)
-  }, [dispatch])
+  const navigate = useNavigate()
+  const userToken = useSelector(selectLogIn).token
 
-  const userProfile = useSelector(selectProfile)
-  const userProfileData = userProfile?.data ?? {}
+  useEffect(() => {
+    if (!userToken) {
+      navigate('/login')
+      return
+    }
+    dispatch(fetchUserProfile)
+  }, [dispatch, navigate, userToken])
+
+  const userProfileData = useSelector(selectProfile)?.data ?? {}
   const { email, firstName, lastName, userName, id } = userProfileData
 
   return (
