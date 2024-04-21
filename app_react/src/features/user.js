@@ -42,10 +42,19 @@ const { actions, reducer } = createSlice({
       draft.data = null
       return
     },
+    resolvedEditUserName: (draft, action) => {
+      if (draft.status === 'pending' || draft.status === 'updating') {
+        draft.data.userName = action.payload
+        draft.status = 'resolved'
+        return
+      }
+      return
+    },
   },
 })
 
-export const { fetching, resolved, rejected, resetData } = actions
+export const { fetching, resolved, rejected, resetData, resolvedEditUserName } =
+  actions
 export default reducer
 
 export async function fetchUserProfile(dispatch, getState) {
@@ -65,6 +74,29 @@ export async function fetchUserProfile(dispatch, getState) {
     })
     const data = await response.json()
     dispatch(actions.resolved(data.body))
+  } catch (error) {
+    dispatch(actions.rejected(error))
+  }
+}
+
+export async function editUserName(dispatch, getState) {
+  // const userName = selectProfile(getState()).data.userName
+  const userToken = selectLogIn(getState()).token
+  const status = selectProfile(getState()).status
+  if (status === 'pending' || status === 'updating') {
+    return
+  }
+  dispatch(actions.fetching())
+  try {
+    const response = await fetch('http://localhost:3001/api/v1/user/profile', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${userToken}`,
+      },
+    })
+    const data = await response.json()
+    dispatch(actions.editUserName(data.body))
   } catch (error) {
     dispatch(actions.rejected(error))
   }

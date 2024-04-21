@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { fetchUserProfile } from '../../features/user'
 import { selectProfile, selectLogIn } from '../../features/selectors'
 import Header from '../../components/Header/Header'
+import HeaderUserName from '../../components/HeaderUserName/HeaderUserName'
 import Account from '../../components/Account/Account'
 import Footer from '../../components/Footer/Footer'
 import { useNavigate } from 'react-router-dom'
@@ -21,19 +22,18 @@ export default function UserPage() {
   }, [dispatch, navigate, userToken])
 
   const userProfileData = useSelector(selectProfile)?.data ?? {}
-  const { firstName, lastName } = userProfileData
+  const { firstName, lastName, userName } = userProfileData
 
   return (
     <>
       <Header />
       <main className='main bg-dark'>
         <div className='header'>
-          <h1>
-            Welcome back
-            <br />
-            {firstName} {lastName}
-          </h1>
-          <button className='edit-button'>Edit Name</button>
+          <HeaderUserName
+            userName={userName}
+            firstName={firstName}
+            lastName={lastName}
+          />
         </div>
         <h2 className='sr-only'>Accounts</h2>
         <Account
