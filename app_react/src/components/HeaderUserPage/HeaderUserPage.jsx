@@ -1,8 +1,17 @@
 import { useState } from 'react'
+import { editUserName } from '../../features/userProfile'
+import { useDispatch } from 'react-redux'
 
-export default function HeaderUserName({ firstName, lastName, userName }) {
+export default function HeaderUserPage({ firstName, lastName, userName }) {
+  const dispatch = useDispatch()
   const [EditForm, setEditForm] = useState(false)
   const [newUserName, setNewUserName] = useState('')
+
+  const SaveNewUserName = (e) => {
+    e.preventDefault()
+    dispatch(editUserName({ newUserName }))
+    toogleEditForm()
+  }
 
   const toogleEditForm = () => {
     setEditForm((prevstate) => !prevstate)
@@ -24,7 +33,7 @@ export default function HeaderUserName({ firstName, lastName, userName }) {
       ) : (
         <>
           <h1>Edit User Info</h1>
-          <form className='editForm'>
+          <form className='editForm' onSubmit={SaveNewUserName}>
             <div className='editForm__div'>
               <label htmlFor='newUsername'>User name: </label>
               <input
@@ -55,11 +64,7 @@ export default function HeaderUserName({ firstName, lastName, userName }) {
               />
             </div>
             <div>
-              <button
-                className='edit-button'
-                type='submit'
-                onClick={toogleEditForm}
-              >
+              <button className='edit-button' type='submit'>
                 Save
               </button>
               <button className='edit-button' onClick={toogleEditForm}>

@@ -1,5 +1,5 @@
 import logInReducer from './logIn'
-import userDataReducer from './user'
+import userDataReducer from './userProfile'
 import { configureStore } from '@reduxjs/toolkit'
 
 export default configureStore({

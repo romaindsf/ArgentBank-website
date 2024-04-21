@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchUserProfile } from '../../features/user'
+import { fetchUserProfile } from '../../features/userProfile'
 import { selectProfile, selectLogIn } from '../../features/selectors'
 import Header from '../../components/Header/Header'
-import HeaderUserName from '../../components/HeaderUserName/HeaderUserName'
+import HeaderUserPage from '../../components/HeaderUserPage/HeaderUserPage'
 import Account from '../../components/Account/Account'
 import Footer from '../../components/Footer/Footer'
 import { useNavigate } from 'react-router-dom'
@@ -29,7 +29,7 @@ export default function UserPage() {
       <Header />
       <main className='main bg-dark'>
         <div className='header'>
-          <HeaderUserName
+          <HeaderUserPage
             userName={userName}
             firstName={firstName}
             lastName={lastName}

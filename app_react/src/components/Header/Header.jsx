@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import { selectLogIn } from '../../features/selectors'
 import { reset } from '../../features/logIn'
-import { resetData } from '../../features/user'
+import { resetData } from '../../features/userProfile'
 
 export default function Header() {
   const dispatch = useDispatch()
