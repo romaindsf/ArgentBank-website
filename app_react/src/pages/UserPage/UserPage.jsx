@@ -20,7 +20,10 @@ export default function UserPage() {
     }
     dispatch(fetchUserProfile)
   }, [dispatch, navigate, userToken])
-
+  //'?.' => opérateur de chaînage optionnel
+  // permet d'acceder à la valeur de l'objet même si elle est null/undefined
+  // '?? {}' => op"rateur de fusion de nullité
+  // défini un valeur par défaut (dans ce cas un objet vide) si la valeur à gauche de l'opérateur est null/undefined
   const userProfileData = useSelector(selectProfile)?.data ?? {}
   const { firstName, lastName, userName } = userProfileData
 
