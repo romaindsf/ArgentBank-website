@@ -65,8 +65,8 @@ paths:
         - User Module
       summary: User Profile API
       description: API for fetching a user profile
-      #produces:
-       # - application/json
+      produces:
+       - application/json
       responses:
         '200':
           description: User profile retrieved successully
@@ -103,9 +103,12 @@ paths:
           description: Internal Server Error
   /user/account:
     get:
+      security:
+        - Bearer: []
       tags:
-      - "user"
-      description: "Visualiser toutes les transactions pour le mois en cours, groupées par compte"
+      - User Profile
+      summary: User Account API
+      description: API for fetching a user accounts and transactions
       produces:
       - "application/json"
       parameters:
@@ -116,25 +119,28 @@ paths:
         type: "string"
         format: "bearer"
       responses:
-        200:
+        '200':
           description: "Successful operation"
           schema:
             $ref: "#/definitions/ApiResponseGetAccount"
-        400:
+        '400':
           description: "Request is malformed or invalid"
-        401:
+        '401':
           description: "User is not authenticated to access the resource"
-        404:
+        '404':
           description: "Requested resource could not be found"
-        500:
+        '500':
           description: "Unexpected error occurred on the server"
-        503:
+        '503':
           description: "Server is temporarily unavailable"
   /user/{transactionID}:
     get:
+      security:
+        - Bearer: []
       tags:
-      - "user"
-      description: "Visualiser les détails d'une transaction dans une autre vue "
+      - User Profile
+      summary: User Transaction ID API
+      description: "API for fetching a transaction informations"
       produces:
       - "application/json"
       parameters:
@@ -166,9 +172,12 @@ paths:
         503:
           description: "Server is temporarily unavailable"
     put:
+      security:
+        - Bearer: []
       tags:
-      - "user"
-      description: "Modifier des informations sur une transaction"
+      - User Profile
+      summary: User Transaction ID API
+      description: "API for modifying a transaction informations"
       consumes:
       - "application/json"
       produces:
