@@ -23,4 +23,9 @@
     max-width: 100%;
     width: 200px;
   }
+  div {
+    display: flex;
+    justify-content: flex-end;
+    gap: 30px;
+  }
 }

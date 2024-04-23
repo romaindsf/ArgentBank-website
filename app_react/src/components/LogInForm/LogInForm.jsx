@@ -58,7 +58,7 @@ export default function LogInForm() {
           <label htmlFor='remember-me'>Remember me</label>
         </div>
         <button className='sign-in-button' type='submit'>
-          {stateLogin?.isLoggedIn ? <Navigate to='/user/' /> : 'Sign In'}
+          {stateLogin?.isLoggedIn ? <Navigate to='/profile/' /> : 'Sign In'}
         </button>
       </form>
     </section>
