@@ -111,13 +111,6 @@ paths:
       description: API for fetching a user accounts and transactions
       produces:
       - "application/json"
-      parameters:
-      - name: "Authorization"
-        in: "header"
-        description: "Access token"
-        required: true
-        type: "string"
-        format: "bearer"
       responses:
         '200':
           description: "Successful operation"
@@ -150,12 +143,6 @@ paths:
         required: true
         type: "integer"
         format: "int64"
-      - name: "Authorization"
-        in: "header"
-        description: "Access token"
-        required: true
-        type: "string"
-        format: "bearer"
       responses:
         200:
           description: "successful operation"
@@ -189,15 +176,9 @@ paths:
         required: true
         type: "integer"
         format: "int64"
-      - name: "Authorization"
-        in: "header"
-        description: "Access token"
-        required: true
-        type: "string"
-        format: "bearer"
       - in: "body"
         name: "body"
-        description: "Information(s) à modifier sur une transaction"
+        description: "Information(s) to change about a transaction"
         required: true
         schema:
           $ref: "#/definitions/TransactionDetails"
@@ -306,18 +287,18 @@ definitions:
         properties:
           account:
             type: "array"
-            items: {
+            items: 
               $ref: "#/definitions/Account"
-            }
+            
           transactions:
             type: "array"
-            items: {
+            items: 
               $ref: "#/definitions/Transactions"
-            }
+            
   TransactionDetails:
     type: "object"
     properties:
-      transaction type:
+      transaction_type:
         type: "string"
       category:
         type: "string"
